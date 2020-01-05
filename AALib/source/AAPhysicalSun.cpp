@@ -10,8 +10,9 @@ History: PJN / 16-06-2004 1. Fixed a typo in the calculation of SunLongDash in C
          PJN / 15-05-2017 1. Fixed an issue in CAAPhysicalSun::Calculate where the value "eta" would 
                           sometimes not be returned in the correct quadrant. Thanks to Alexandru 
                           Garofide for reporting this issue.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -28,6 +29,7 @@ to maintain a single distribution point for the source code.
 
 ///////////////////////////////// Includes ////////////////////////////////////
 
+#include "stdafx.h"
 #include "AAPhysicalSun.h"
 #include "AASun.h"
 #include "AAEarth.h"
@@ -39,15 +41,15 @@ using namespace std;
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-CAAPhysicalSunDetails CAAPhysicalSun::Calculate(double JD, bool bHighPrecision)
+CAAPhysicalSunDetails CAAPhysicalSun::Calculate(double JD, bool bHighPrecision) noexcept
 {
   double theta = CAACoordinateTransformation::MapTo0To360Range((JD - 2398220) * 360 / 25.38);
   double I = 7.25;
   double K = 73.6667 + 1.3958333*(JD - 2396758)/36525;
 
   //Calculate the apparent longitude of the sun (excluding the effect of nutation)
-  double L = CAAEarth::EclipticLongitude(JD, bHighPrecision);
-  double R = CAAEarth::RadiusVector(JD, bHighPrecision);
+  const double L = CAAEarth::EclipticLongitude(JD, bHighPrecision);
+  const double R = CAAEarth::RadiusVector(JD, bHighPrecision);
   double SunLong = L + 180 - CAACoordinateTransformation::DMSToDegrees(0, 0, 20.4898 / R);
 
   double epsilon = CAANutation::TrueObliquityOfEcliptic(JD);
@@ -59,20 +61,20 @@ CAAPhysicalSunDetails CAAPhysicalSun::Calculate(double JD, bool bHighPrecision)
   I = CAACoordinateTransformation::DegreesToRadians(I);
   theta = CAACoordinateTransformation::DegreesToRadians(theta);
 
-  double x = atan(-cos(SunLong)*tan(epsilon));
-  double y = atan(-cos(SunLong - K)*tan(I));
+  const double x = atan(-cos(SunLong)*tan(epsilon));
+  const double y = atan(-cos(SunLong - K)*tan(I));
 
   CAAPhysicalSunDetails details;
   details.P = CAACoordinateTransformation::RadiansToDegrees(x + y);
   details.B0 = CAACoordinateTransformation::RadiansToDegrees(asin(sin(SunLong - K)*sin(I)));
-  double SunLongMinusK = SunLong - K;
-  double eta = atan2(-sin(SunLongMinusK)*cos(I), -cos(SunLongMinusK));
+  const double SunLongMinusK = SunLong - K;
+  const double eta = atan2(-sin(SunLongMinusK)*cos(I), -cos(SunLongMinusK));
   details.L0 = CAACoordinateTransformation::MapTo0To360Range(CAACoordinateTransformation::RadiansToDegrees(eta - theta));
 
   return details;
 }
 
-double CAAPhysicalSun::TimeOfStartOfRotation(long C)
+double CAAPhysicalSun::TimeOfStartOfRotation(long C) noexcept
 {
   double JED = 2398140.2270 + 27.2752316*C;
 

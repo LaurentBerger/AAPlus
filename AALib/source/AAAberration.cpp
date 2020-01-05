@@ -11,8 +11,9 @@ History: PJN / 21-04-2005 1. Renamed "AAAberation.cpp" to "AAAberration.cpp" so 
                           include a "bool bHighPrecision" parameter which if set to true means the code uses 
                           the full  VSOP87 theory rather than the truncated theory as presented in Meeus's 
                           book.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -22,13 +23,14 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
 
 /////////////////////////////// Includes //////////////////////////////////////
 
+#include "stdafx.h"
 #include "AAAberration.h"
 #include "AACoordinateTransformation.h"
 #include "AAEarth.h"
@@ -42,6 +44,10 @@ using namespace std;
 
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
+
+#ifdef _MSC_VER
+#pragma warning(disable : 26446 26482)
+#endif //#ifdef _MSC_VER
 
 struct AberrationCoefficient
 {
@@ -118,7 +124,7 @@ const AberrationCoefficient g_AberrationCoefficients[] =
 
 //////////////////////////////// Implementation ///////////////////////////////
 
-CAA3DCoordinate CAAAberration::EarthVelocity(double JD, bool bHighPrecision)
+CAA3DCoordinate CAAAberration::EarthVelocity(double JD, bool bHighPrecision) noexcept
 {
   CAA3DCoordinate velocity;
 
@@ -138,28 +144,28 @@ CAA3DCoordinate CAAAberration::EarthVelocity(double JD, bool bHighPrecision)
   UNREFERENCED_PARAMETER(bHighPrecision);
 #endif
 
-  double T = (JD - 2451545) / 36525;
-  double L2 = 3.1761467 + 1021.3285546 * T;
-  double L3 = 1.7534703 + 628.3075849 * T;
-  double L4 = 6.2034809 + 334.0612431 * T;
-  double L5 = 0.5995465 + 52.9690965 * T;
-  double L6 = 0.8740168 + 21.3299095 * T;
-  double L7 = 5.4812939 + 7.4781599 * T;
-  double L8 = 5.3118863 + 3.8133036 * T;
-  double Ldash = 3.8103444 + 8399.6847337 * T;
-  double D = 5.1984667 + 7771.3771486 * T;
-  double Mdash = 2.3555559 + 8328.6914289 * T;
-  double F = 1.6279052 + 8433.4661601 * T;
+  const double T = (JD - 2451545) / 36525;
+  const double L2 = 3.1761467 + 1021.3285546 * T;
+  const double L3 = 1.7534703 + 628.3075849 * T;
+  const double L4 = 6.2034809 + 334.0612431 * T;
+  const double L5 = 0.5995465 + 52.9690965 * T;
+  const double L6 = 0.8740168 + 21.3299095 * T;
+  const double L7 = 5.4812939 + 7.4781599 * T;
+  const double L8 = 5.3118863 + 3.8133036 * T;
+  const double Ldash = 3.8103444 + 8399.6847337 * T;
+  const double D = 5.1984667 + 7771.3771486 * T;
+  const double Mdash = 2.3555559 + 8328.6914289 * T;
+  const double F = 1.6279052 + 8433.4661601 * T;
 
-  int nAberrationCoefficients = sizeof(g_AberrationCoefficients) / sizeof(AberrationCoefficient);
+  constexpr const int nAberrationCoefficients = sizeof(g_AberrationCoefficients) / sizeof(AberrationCoefficient);
   for (int i=0; i<nAberrationCoefficients; i++)
   {
-    double Argument = g_AberrationCoefficients[i].L2*L2 + g_AberrationCoefficients[i].L3*L3 + 
-                      g_AberrationCoefficients[i].L4*L4 + g_AberrationCoefficients[i].L5*L5 + 
-                      g_AberrationCoefficients[i].L6*L6 + g_AberrationCoefficients[i].L7*L7 +  
-                      g_AberrationCoefficients[i].L8*L8 + g_AberrationCoefficients[i].Ldash*Ldash + 
-                      g_AberrationCoefficients[i].D*D + g_AberrationCoefficients[i].Mdash*Mdash + 
-                      g_AberrationCoefficients[i].F*F;
+    const double Argument = g_AberrationCoefficients[i].L2*L2 + g_AberrationCoefficients[i].L3*L3 +
+                            g_AberrationCoefficients[i].L4*L4 + g_AberrationCoefficients[i].L5*L5 +
+                            g_AberrationCoefficients[i].L6*L6 + g_AberrationCoefficients[i].L7*L7 +
+                            g_AberrationCoefficients[i].L8*L8 + g_AberrationCoefficients[i].Ldash*Ldash +
+                            g_AberrationCoefficients[i].D*D + g_AberrationCoefficients[i].Mdash*Mdash +
+                            g_AberrationCoefficients[i].F*F;
     velocity.X += (g_AberrationCoefficients[i].xsin + g_AberrationCoefficients[i].xsint * T) * sin(Argument);
     velocity.X += (g_AberrationCoefficients[i].xcos + g_AberrationCoefficients[i].xcost * T) * cos(Argument);
 
@@ -173,18 +179,18 @@ CAA3DCoordinate CAAAberration::EarthVelocity(double JD, bool bHighPrecision)
   return velocity;
 }
 
-CAA2DCoordinate CAAAberration::EquatorialAberration(double Alpha, double Delta, double JD, bool bHighPrecision)
+CAA2DCoordinate CAAAberration::EquatorialAberration(double Alpha, double Delta, double JD, bool bHighPrecision) noexcept
 {
   //Convert to radians
   Alpha = CAACoordinateTransformation::DegreesToRadians(Alpha*15);
   Delta = CAACoordinateTransformation::DegreesToRadians(Delta);
 
-  double cosAlpha = cos(Alpha);
-  double sinAlpha = sin(Alpha);
-  double cosDelta = cos(Delta);
-  double sinDelta = sin(Delta);
+  const double cosAlpha = cos(Alpha);
+  const double sinAlpha = sin(Alpha);
+  const double cosDelta = cos(Delta);
+  const double sinDelta = sin(Delta);
 
-  CAA3DCoordinate velocity = EarthVelocity(JD, bHighPrecision);
+  const CAA3DCoordinate velocity = EarthVelocity(JD, bHighPrecision);
 
   //What is the return value
   CAA2DCoordinate aberration;
@@ -195,16 +201,16 @@ CAA2DCoordinate CAAAberration::EquatorialAberration(double Alpha, double Delta, 
   return aberration;
 }
 
-CAA2DCoordinate CAAAberration::EclipticAberration(double Lambda, double Beta, double JD, bool bHighPrecision)
+CAA2DCoordinate CAAAberration::EclipticAberration(double Lambda, double Beta, double JD, bool bHighPrecision) noexcept
 {
   //What is the return value
   CAA2DCoordinate aberration;
 
-  double T = (JD - 2451545) / 36525;
-  double Tsquared = T*T;
-  double e = 0.016708634 - 0.000042037*T - 0.0000001267*Tsquared;
+  const double T = (JD - 2451545) / 36525;
+  const double Tsquared = T*T;
+  const double e = 0.016708634 - 0.000042037*T - 0.0000001267*Tsquared;
   double pi = 102.93735 + 1.71946*T + 0.00046*Tsquared;
-  double k = 20.49552;
+  constexpr const double k = 20.49552;
   double SunLongitude = CAASun::GeometricEclipticLongitude(JD, bHighPrecision);
 
   //Convert to radians

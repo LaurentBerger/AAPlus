@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
 
-Copyright (c) 2015 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -21,7 +21,7 @@ to maintain a single distribution point for the source code.
 
 /////////////////////////////// Includes //////////////////////////////////////
 
-
+#include "stdafx.h"
 #include "AAVSOP87.h"
 #include "AAVSOP87A_MAR.h"
 #include <cmath>
@@ -29,6 +29,10 @@ using namespace std;
 
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
+
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
 
 const VSOP87Coefficient g_VSOP87A_X0_MARS[] =
 {
@@ -7208,33 +7212,32 @@ const VSOP87Coefficient2 g_VSOP87A_Z_MARS[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87A_Mars::X(double JD)
+double CAAVSOP87A_Mars::X(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87A_X_MARS, sizeof(g_VSOP87A_X_MARS)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87A_Mars::X_DASH(double JD)
+double CAAVSOP87A_Mars::X_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87A_X_MARS, sizeof(g_VSOP87A_X_MARS)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87A_Mars::Y(double JD)
+double CAAVSOP87A_Mars::Y(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87A_Y_MARS, sizeof(g_VSOP87A_Y_MARS)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87A_Mars::Y_DASH(double JD)
+double CAAVSOP87A_Mars::Y_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87A_Y_MARS, sizeof(g_VSOP87A_Y_MARS)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87A_Mars::Z(double JD)
+double CAAVSOP87A_Mars::Z(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87A_Z_MARS, sizeof(g_VSOP87A_Z_MARS)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87A_Mars::Z_DASH(double JD)
+double CAAVSOP87A_Mars::Z_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87A_Z_MARS, sizeof(g_VSOP87A_Z_MARS)/sizeof(VSOP87Coefficient2));
 }
-

@@ -2,9 +2,9 @@
 Module : AAPlanetPerihelionAphelion.cpp
 Purpose: Implementation for the algorithms which obtain the dates of Perihelion and Aphelion of the planets
 Created: PJN / 29-12-2003
-History: None
+History: PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -21,6 +21,7 @@ to maintain a single distribution point for the source code.
 
 ///////////////////////////////// Includes ////////////////////////////////////
 
+#include "stdafx.h"
 #include "AAPlanetPerihelionAphelion.h"
 #include "AACoordinateTransformation.h"
 #include <cmath>
@@ -29,50 +30,10 @@ using namespace std;
 
 ///////////////////////////////// Implementation //////////////////////////////
 
-long CAAPlanetPerihelionAphelion::MercuryK(double Year)
+double CAAPlanetPerihelionAphelion::EarthPerihelion(long k, bool bBarycentric) noexcept
 {
-  return static_cast<long>(4.15201*(Year - 2000.12));
-}
-
-double CAAPlanetPerihelionAphelion::MercuryPerihelion(long k)
-{
-  return 2451590.257 + 87.96934963*k;
-}
-
-double CAAPlanetPerihelionAphelion::MercuryAphelion(long k)
-{
-  double kdash = k + 0.5;
-  return 2451590.257 + 87.96934963*kdash;
-}
-
-long CAAPlanetPerihelionAphelion::VenusK(double Year)
-{
-  return static_cast<long>(1.62549*(Year - 2000.53));
-}
-
-double CAAPlanetPerihelionAphelion::VenusPerihelion(long k)
-{
-  double kdash = k;
-  double ksquared = kdash * kdash;
-  return 2451738.233 + 224.7008188*kdash - 0.0000000327*ksquared;
-}
-
-double CAAPlanetPerihelionAphelion::VenusAphelion(long k)
-{
-  double kdash = k + 0.5;
-  double ksquared = kdash * kdash;
-  return 2451738.233 + 224.7008188*kdash - 0.0000000327*ksquared;
-}
-
-long CAAPlanetPerihelionAphelion::EarthK(double Year)
-{
-  return static_cast<long>(0.99997*(Year - 2000.01));
-}
-
-double CAAPlanetPerihelionAphelion::EarthPerihelion(long k, bool bBarycentric)
-{
-  double kdash = k;
-  double ksquared = kdash * kdash;
+  const double kdash = k;
+  const double ksquared = kdash * kdash;
   double JD = 2451547.507 + 365.2596358*kdash + 0.0000000156*ksquared;
 
   if (!bBarycentric)
@@ -99,10 +60,10 @@ double CAAPlanetPerihelionAphelion::EarthPerihelion(long k, bool bBarycentric)
   return JD;
 }
 
-double CAAPlanetPerihelionAphelion::EarthAphelion(long k, bool bBarycentric)
+double CAAPlanetPerihelionAphelion::EarthAphelion(long k, bool bBarycentric) noexcept
 {
-  double kdash = k + 0.5;
-  double ksquared = kdash * kdash;
+  const double kdash = k + 0.5;
+  const double ksquared = kdash * kdash;
   double JD = 2451547.507 + 365.2596358*kdash + 0.0000000156*ksquared;
 
   if (!bBarycentric)
@@ -127,99 +88,4 @@ double CAAPlanetPerihelionAphelion::EarthAphelion(long k, bool bBarycentric)
   }
 
   return JD;
-}
-
-long CAAPlanetPerihelionAphelion::MarsK(double Year)
-{
-  return static_cast<long>(0.53166*(Year - 2001.78));
-}
-
-double CAAPlanetPerihelionAphelion::MarsPerihelion(long k)
-{
-  double kdash = k;
-  double ksquared = kdash * kdash;
-  return 2452195.026 + 686.9957857*kdash - 0.0000001187*ksquared;
-}
-
-double CAAPlanetPerihelionAphelion::MarsAphelion(long k)
-{
-  double kdash = k + 0.5;
-  double ksquared = kdash * kdash;
-  return 2452195.026 + 686.9957857*kdash - 0.0000001187*ksquared;
-}
-
-long CAAPlanetPerihelionAphelion::JupiterK(double Year)
-{
-  return static_cast<long>(0.08430*(Year - 2011.20));
-}
-
-double CAAPlanetPerihelionAphelion::JupiterPerihelion(long k)
-{
-  double kdash = k;
-  double ksquared = kdash * kdash;
-  return 2455636.936 + 4332.897065*kdash + 0.0001367*ksquared;
-}
-
-double CAAPlanetPerihelionAphelion::JupiterAphelion(long k)
-{
-  double kdash = k + 0.5;
-  double ksquared = kdash * kdash;
-  return 2455636.936 + 4332.897065*kdash + 0.0001367*ksquared;
-}
-
-long CAAPlanetPerihelionAphelion::SaturnK(double Year)
-{
-  return static_cast<long>(0.03393*(Year - 2003.52));
-}
-
-double CAAPlanetPerihelionAphelion::SaturnPerihelion(long k)
-{
-  double kdash = k;
-  double ksquared = kdash * kdash;
-  return 2452830.12 + 10764.21676*kdash + 0.000827*ksquared;
-}
-
-double CAAPlanetPerihelionAphelion::SaturnAphelion(long k)
-{
-  double kdash = k + 0.5;
-  double ksquared = kdash * kdash;
-  return 2452830.12 + 10764.21676*kdash + 0.000827*ksquared;
-}
-
-long CAAPlanetPerihelionAphelion::UranusK(double Year)
-{
-  return static_cast<long>(0.01190*(Year - 2051.1));
-}
-
-double CAAPlanetPerihelionAphelion::UranusPerihelion(long k)
-{
-  double kdash = k;
-  double ksquared = kdash * kdash;
-  return 2470213.5 + 30694.8767*kdash - 0.00541*ksquared;
-}
-
-double CAAPlanetPerihelionAphelion::UranusAphelion(long k)
-{
-  double kdash = k + 0.5;
-  double ksquared = kdash * kdash;
-  return 2470213.5 + 30694.8767*kdash - 0.00541*ksquared;
-}
-
-long CAAPlanetPerihelionAphelion::NeptuneK(double Year)
-{
-  return static_cast<long>(0.00607*(Year - 2047.5));
-}
-
-double CAAPlanetPerihelionAphelion::NeptunePerihelion(long k)
-{
-  double kdash = k;
-  double ksquared = kdash * kdash;
-  return 2468895.1 + 60190.33*kdash + 0.03429*ksquared;
-}
-
-double CAAPlanetPerihelionAphelion::NeptuneAphelion(long k)
-{
-  double kdash = k + 0.5;
-  double ksquared = kdash * kdash;
-  return 2468895.1 + 60190.33*kdash + 0.03429*ksquared;
 }

@@ -8,8 +8,9 @@ History: PJN / 05-07-2005 1. Fix for a bug to ensure that values returned from C
          PJN / 16-09-2015 1. CAAEquationOfTime::Calculate now includes a "bool bHighPrecision" parameter
                           which if set to true means the code uses the full VSOP87 theory rather than the
                           truncated theory as presented in Meeus's book.
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -26,6 +27,7 @@ to maintain a single distribution point for the source code.
 
 ///////////////////////// Includes ////////////////////////////////////////////
 
+#include "stdafx.h"
 #include "AAEquationOfTime.h"
 #include "AA2DCoordinate.h"
 #include "AACoordinateTransformation.h"
@@ -37,23 +39,23 @@ using namespace std;
 
 ///////////////////////// Implementation //////////////////////////////////////
 
-double CAAEquationOfTime::Calculate(double JD, bool bHighPrecision)
+double CAAEquationOfTime::Calculate(double JD, bool bHighPrecision) noexcept
 {
-  double rho = (JD - 2451545) / 365250;
-  double rhosquared = rho*rho;
-  double rhocubed = rhosquared*rho;
-  double rho4 = rhocubed*rho;
-  double rho5 = rho4*rho;
+  const double rho = (JD - 2451545) / 365250;
+  const double rhosquared = rho*rho;
+  const double rhocubed = rhosquared*rho;
+  const double rho4 = rhocubed*rho;
+  const double rho5 = rho4*rho;
 
   //Calculate the Suns mean longitude
-  double L0 = CAACoordinateTransformation::MapTo0To360Range(280.4664567 + 360007.6982779*rho + 0.03032028*rhosquared +   
-                                                            rhocubed / 49931 - rho4 / 15300 - rho5 / 2000000);
+  const double L0 = CAACoordinateTransformation::MapTo0To360Range(280.4664567 + 360007.6982779*rho + 0.03032028*rhosquared +
+                                                                  rhocubed / 49931 - rho4 / 15300 - rho5 / 2000000);
 
   //Calculate the Suns apparent right ascension
-  double SunLong = CAASun::ApparentEclipticLongitude(JD, bHighPrecision);
-  double SunLat = CAASun::ApparentEclipticLatitude(JD, bHighPrecision);
+  const double SunLong = CAASun::ApparentEclipticLongitude(JD, bHighPrecision);
+  const double SunLat = CAASun::ApparentEclipticLatitude(JD, bHighPrecision);
   double epsilon = CAANutation::TrueObliquityOfEcliptic(JD);
-  CAA2DCoordinate Equatorial = CAACoordinateTransformation::Ecliptic2Equatorial(SunLong, SunLat, epsilon);
+  const CAA2DCoordinate Equatorial = CAACoordinateTransformation::Ecliptic2Equatorial(SunLong, SunLat, epsilon);
 
   epsilon = CAACoordinateTransformation::DegreesToRadians(epsilon);
   double E = L0 - 0.0057183 - Equatorial.X*15 + CAACoordinateTransformation::DMSToDegrees(0, 0, CAANutation::NutationInLongitude(JD))*cos(epsilon);

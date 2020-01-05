@@ -3,7 +3,7 @@ Module : AAPhysicalJupiter.h
 Purpose: Implementation for the algorithms which obtain the physical parameters of Jupiter
 Created: PJN / 05-01-2004
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,15 +38,22 @@ class AAPLUS_EXT_CLASS CAAPhysicalJupiterDetails
 {
 public:
 //Constructors / Destructors
-  CAAPhysicalJupiterDetails() : DE(0), 
-                                DS(0), 
-                                Geometricw1(0), 
-                                Geometricw2(0),
-                                Apparentw1(0), 
-                                Apparentw2(0), 
-                                P(0) 
+  CAAPhysicalJupiterDetails() noexcept : DE(0),
+                                         DS(0),
+                                         Geometricw1(0),
+                                         Geometricw2(0),
+                                         Apparentw1(0),
+                                         Apparentw2(0),
+                                         P(0)
   {
   };
+  CAAPhysicalJupiterDetails(const CAAPhysicalJupiterDetails&) = default;
+  CAAPhysicalJupiterDetails(CAAPhysicalJupiterDetails&&) = default;
+  ~CAAPhysicalJupiterDetails() = default;
+
+//Methods
+  CAAPhysicalJupiterDetails& operator=(const CAAPhysicalJupiterDetails&) = default;
+  CAAPhysicalJupiterDetails& operator=(CAAPhysicalJupiterDetails&&) = default;
 
 //Member variables
   double DE;
@@ -62,7 +69,7 @@ class AAPLUS_EXT_CLASS CAAPhysicalJupiter
 {
 public:
 //Static methods
-  static CAAPhysicalJupiterDetails Calculate(double JD, bool bHighPrecision);
+  static CAAPhysicalJupiterDetails Calculate(double JD, bool bHighPrecision) noexcept;
 };
 
 #endif //#ifndef __AAPHYSICALJUPITER_H__

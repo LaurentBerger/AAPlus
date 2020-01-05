@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
 
-Copyright (c) 2015 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -21,7 +21,7 @@ to maintain a single distribution point for the source code.
 
 /////////////////////////////// Includes //////////////////////////////////////
 
-
+#include "stdafx.h"
 #include "AAVSOP87.h"
 #include "AAVSOP87_MAR.h"
 #include <cmath>
@@ -29,6 +29,10 @@ using namespace std;
 
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
+
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
 
 const VSOP87Coefficient g_VSOP87_A0_MARS[] =
 {
@@ -7725,33 +7729,32 @@ const VSOP87Coefficient2 g_VSOP87_P_MARS[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87_Mars::A(double JD)
+double CAAVSOP87_Mars::A(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_A_MARS, sizeof(g_VSOP87_A_MARS)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87_Mars::L(double JD)
+double CAAVSOP87_Mars::L(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_L_MARS, sizeof(g_VSOP87_L_MARS)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Mars::K(double JD)
+double CAAVSOP87_Mars::K(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_K_MARS, sizeof(g_VSOP87_K_MARS)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Mars::H(double JD)
+double CAAVSOP87_Mars::H(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_H_MARS, sizeof(g_VSOP87_H_MARS)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Mars::Q(double JD)
+double CAAVSOP87_Mars::Q(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_Q_MARS, sizeof(g_VSOP87_Q_MARS)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Mars::P(double JD)
+double CAAVSOP87_Mars::P(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_P_MARS, sizeof(g_VSOP87_P_MARS)/sizeof(VSOP87Coefficient2), true);
 }
-

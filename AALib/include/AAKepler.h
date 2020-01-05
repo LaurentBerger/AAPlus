@@ -3,7 +3,7 @@ Module : AAKepler.h
 Purpose: Implementation for the algorithms which solve Kepler's equation
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,7 +38,7 @@ class AAPLUS_EXT_CLASS CAAKepler
 {
 public:
 //Static methods
-  static double Calculate(double M, double e, int nIterations = 53);
+  static double Calculate(double M, double e, int nIterations = 53) noexcept;
 };
 
 

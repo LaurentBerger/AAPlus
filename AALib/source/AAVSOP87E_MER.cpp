@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
 
-Copyright (c) 2015 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -21,7 +21,7 @@ to maintain a single distribution point for the source code.
 
 /////////////////////////////// Includes //////////////////////////////////////
 
-
+#include "stdafx.h"
 #include "AAVSOP87.h"
 #include "AAVSOP87E_MER.h"
 #include <cmath>
@@ -29,6 +29,10 @@ using namespace std;
 
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
+
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
 
 const VSOP87Coefficient g_VSOP87E_X0_MERCURY[] =
 {
@@ -8015,33 +8019,32 @@ const VSOP87Coefficient2 g_VSOP87E_Z_MERCURY[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87E_Mercury::X(double JD)
+double CAAVSOP87E_Mercury::X(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87E_X_MERCURY, sizeof(g_VSOP87E_X_MERCURY)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87E_Mercury::X_DASH(double JD)
+double CAAVSOP87E_Mercury::X_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87E_X_MERCURY, sizeof(g_VSOP87E_X_MERCURY)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87E_Mercury::Y(double JD)
+double CAAVSOP87E_Mercury::Y(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87E_Y_MERCURY, sizeof(g_VSOP87E_Y_MERCURY)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87E_Mercury::Y_DASH(double JD)
+double CAAVSOP87E_Mercury::Y_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87E_Y_MERCURY, sizeof(g_VSOP87E_Y_MERCURY)/sizeof(VSOP87Coefficient2));
 }
 
-double CAAVSOP87E_Mercury::Z(double JD)
+double CAAVSOP87E_Mercury::Z(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87E_Z_MERCURY, sizeof(g_VSOP87E_Z_MERCURY)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87E_Mercury::Z_DASH(double JD)
+double CAAVSOP87E_Mercury::Z_DASH(double JD) noexcept
 {
   return CVSOP87::Calculate_Dash(JD, g_VSOP87E_Z_MERCURY, sizeof(g_VSOP87E_Z_MERCURY)/sizeof(VSOP87Coefficient2));
 }
-

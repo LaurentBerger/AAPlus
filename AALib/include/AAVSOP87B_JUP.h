@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
 
-Copyright (c) 2015 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,12 +38,12 @@ to maintain a single distribution point for the source code.
 class AAPLUS_EXT_CLASS CAAVSOP87B_Jupiter
 {
 public:
-  static double L(double JD);
-  static double L_DASH(double JD);
-  static double B(double JD);
-  static double B_DASH(double JD);
-  static double R(double JD);
-  static double R_DASH(double JD);
+  static double L(double JD) noexcept;
+  static double L_DASH(double JD) noexcept;
+  static double B(double JD) noexcept;
+  static double B_DASH(double JD) noexcept;
+  static double R(double JD) noexcept;
+  static double R_DASH(double JD) noexcept;
 };
 
 

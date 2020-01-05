@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
 
-Copyright (c) 2015 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -21,7 +21,7 @@ to maintain a single distribution point for the source code.
 
 /////////////////////////////// Includes //////////////////////////////////////
 
-
+#include "stdafx.h"
 #include "AAVSOP87.h"
 #include "AAVSOP87_VEN.h"
 #include <cmath>
@@ -29,6 +29,10 @@ using namespace std;
 
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
+
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
 
 const VSOP87Coefficient g_VSOP87_A0_VENUS[] =
 {
@@ -3199,33 +3203,32 @@ const VSOP87Coefficient2 g_VSOP87_P_VENUS[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87_Venus::A(double JD)
+double CAAVSOP87_Venus::A(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_A_VENUS, sizeof(g_VSOP87_A_VENUS)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87_Venus::L(double JD)
+double CAAVSOP87_Venus::L(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_L_VENUS, sizeof(g_VSOP87_L_VENUS)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Venus::K(double JD)
+double CAAVSOP87_Venus::K(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_K_VENUS, sizeof(g_VSOP87_K_VENUS)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Venus::H(double JD)
+double CAAVSOP87_Venus::H(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_H_VENUS, sizeof(g_VSOP87_H_VENUS)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Venus::Q(double JD)
+double CAAVSOP87_Venus::Q(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_Q_VENUS, sizeof(g_VSOP87_Q_VENUS)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Venus::P(double JD)
+double CAAVSOP87_Venus::P(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_P_VENUS, sizeof(g_VSOP87_P_VENUS)/sizeof(VSOP87Coefficient2), true);
 }
-

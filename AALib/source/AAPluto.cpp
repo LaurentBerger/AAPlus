@@ -7,8 +7,9 @@ History: PJN / 07-02-2009 1. Optimized the layout of the PlutoCoefficient1 struc
          PJN / 18-03-2012 1. All global "g_*" tables are now const. Thanks to Roger Dahl for reporting this 
                           issue when compiling AA+ on ARM.
          PJN / 01-08-2017 1. Fixed up alignment of lookup tables in AAPluto.cpp module
+         PJN / 18-08-2019 1. Fixed some further compiler warnings when using VC 2019 Preview v16.3.0 Preview 2.0
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -25,6 +26,7 @@ to maintain a single distribution point for the source code.
 
 //////////////////////// Includes /////////////////////////////////////////////
 
+#include "stdafx.h"
 #include "AAPluto.h"
 #include "AACoordinateTransformation.h"
 #include <cmath>
@@ -32,6 +34,10 @@ using namespace std;
 
 
 //////////////////////// Macros / Defines /////////////////////////////////////
+
+#ifdef _MSC_VER
+#pragma warning(disable : 26446 26482 26485)
+#endif //#ifdef _MSC_VER
 
 struct PlutoCoefficient1
 {
@@ -237,16 +243,16 @@ const PlutoCoefficient2 g_PlutoRadiusCoefficients[] =
 
 /////////////////////////////////// Implementation ////////////////////////////
 
-double CAAPluto::EclipticLongitude(double JD)
+double CAAPluto::EclipticLongitude(double JD) noexcept
 {
-  double T = (JD - 2451545) / 36525;
-  double J = 34.35 + 3034.9057*T;
-  double S = 50.08 + 1222.1138*T;
-  double P = 238.96 + 144.9600*T;
+  const double T = (JD - 2451545) / 36525;
+  const double J = 34.35 + 3034.9057*T;
+  const double S = 50.08 + 1222.1138*T;
+  const double P = 238.96 + 144.9600*T;
 
   //Calculate Longitude
   double L = 0;
-  int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
+  constexpr const int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
   for (int i=0; i<nPlutoCoefficients; i++)
   {
     double Alpha = g_PlutoArgumentCoefficients[i].J * J +  g_PlutoArgumentCoefficients[i].S * S + g_PlutoArgumentCoefficients[i].P * P;
@@ -260,16 +266,16 @@ double CAAPluto::EclipticLongitude(double JD)
   return L;
 }
 
-double CAAPluto::EclipticLatitude(double JD)
+double CAAPluto::EclipticLatitude(double JD) noexcept
 {
-  double T = (JD - 2451545) / 36525;
-  double J = 34.35 + 3034.9057*T;
-  double S = 50.08 + 1222.1138*T;
-  double P = 238.96 + 144.9600*T;
+  const double T = (JD - 2451545) / 36525;
+  const double J = 34.35 + 3034.9057*T;
+  const double S = 50.08 + 1222.1138*T;
+  const double P = 238.96 + 144.9600*T;
 
   //Calculate Latitude
   double L = 0;
-  int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
+  constexpr const int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
   for (int i=0; i<nPlutoCoefficients; i++)
   {
     double Alpha = g_PlutoArgumentCoefficients[i].J * J +  g_PlutoArgumentCoefficients[i].S * S + g_PlutoArgumentCoefficients[i].P * P;
@@ -282,16 +288,16 @@ double CAAPluto::EclipticLatitude(double JD)
   return CAACoordinateTransformation::MapToMinus90To90Range(L);
 }
 
-double CAAPluto::RadiusVector(double JD)
+double CAAPluto::RadiusVector(double JD) noexcept
 {
-  double T = (JD - 2451545) / 36525;
-  double J = 34.35 + 3034.9057*T;
-  double S = 50.08 + 1222.1138*T;
-  double P = 238.96 + 144.9600*T;
+  const double T = (JD - 2451545) / 36525;
+  const double J = 34.35 + 3034.9057*T;
+  const double S = 50.08 + 1222.1138*T;
+  const double P = 238.96 + 144.9600*T;
 
   //Calculate Radius
   double R = 0;
-  int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
+  constexpr const int nPlutoCoefficients = sizeof(g_PlutoArgumentCoefficients) / sizeof(PlutoCoefficient1);
   for (int i=0; i<nPlutoCoefficients; i++)
   {
     double Alpha = g_PlutoArgumentCoefficients[i].J * J +  g_PlutoArgumentCoefficients[i].S * S + g_PlutoArgumentCoefficients[i].P * P;

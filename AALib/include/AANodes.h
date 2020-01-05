@@ -3,7 +3,7 @@ Module : AANodes.h
 Purpose: Implementation for the algorithms which calculate passage through the nodes
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -44,10 +44,17 @@ class AAPLUS_EXT_CLASS CAANodeObjectDetails
 {
 public:
 //Constructors / Destructors
-  CAANodeObjectDetails() : t(0), 
-                           radius(0) 
+  CAANodeObjectDetails() noexcept : t(0),
+                                    radius(0)
   {
   };
+  CAANodeObjectDetails(const CAANodeObjectDetails&) = default;
+  CAANodeObjectDetails(CAANodeObjectDetails&&) = default;
+  ~CAANodeObjectDetails() = default;
+
+//Methods
+  CAANodeObjectDetails& operator=(const CAANodeObjectDetails&) = default;
+  CAANodeObjectDetails& operator=(CAANodeObjectDetails&&) = default;
 
 //Member variables
   double t;
@@ -58,10 +65,10 @@ class AAPLUS_EXT_CLASS CAANodes
 {
 public:
 //Static methods
-  static CAANodeObjectDetails PassageThroAscendingNode(const CAAEllipticalObjectElements& elements);
-  static CAANodeObjectDetails PassageThroDescendingNode(const CAAEllipticalObjectElements& elements);
-  static CAANodeObjectDetails PassageThroAscendingNode(const CAAParabolicObjectElements& elements);
-  static CAANodeObjectDetails PassageThroDescendingNode(const CAAParabolicObjectElements& elements);
+  static CAANodeObjectDetails PassageThroAscendingNode(const CAAEllipticalObjectElements& elements) noexcept;
+  static CAANodeObjectDetails PassageThroDescendingNode(const CAAEllipticalObjectElements& elements) noexcept;
+  static CAANodeObjectDetails PassageThroAscendingNode(const CAAParabolicObjectElements& elements) noexcept;
+  static CAANodeObjectDetails PassageThroDescendingNode(const CAAParabolicObjectElements& elements) noexcept;
 };
 
 

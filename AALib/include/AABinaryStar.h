@@ -3,7 +3,7 @@ Module : AABinaryStar.h
 Purpose: Implementation for the algorithms for a binary star system
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,12 +38,19 @@ class AAPLUS_EXT_CLASS CAABinaryStarDetails
 {
 public:
 //Constructors / Destructors
-  CAABinaryStarDetails() : r(0), 
-                           Theta(0), 
-                           Rho(0) 
+  CAABinaryStarDetails() noexcept : r(0),
+                                    Theta(0),
+                                    Rho(0)
   {
   };
-  
+  CAABinaryStarDetails(const CAABinaryStarDetails&) = default;
+  CAABinaryStarDetails(CAABinaryStarDetails&&) = default;
+  ~CAABinaryStarDetails() = default;
+
+//Methods
+  CAABinaryStarDetails& operator=(const CAABinaryStarDetails&) = default;
+  CAABinaryStarDetails& operator=(CAABinaryStarDetails&&) = default;
+
 //Member variables
   double r;
   double Theta;
@@ -54,8 +61,8 @@ class AAPLUS_EXT_CLASS CAABinaryStar
 {
 public:
 //Static methods
-  static CAABinaryStarDetails Calculate(double t, double P, double T, double e, double a, double i, double omega, double w);
-  static double ApparentEccentricity(double e, double i, double w);
+  static CAABinaryStarDetails Calculate(double t, double P, double T, double e, double a, double i, double omega, double w) noexcept;
+  static double ApparentEccentricity(double e, double i, double w) noexcept;
 };
 
 

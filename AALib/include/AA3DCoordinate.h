@@ -3,7 +3,7 @@ Module : AA3DCoordinate.h
 Purpose: Implementation for the simple class to encapsulate a three dimensional coordinate
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,13 +38,20 @@ class AAPLUS_EXT_CLASS CAA3DCoordinate
 {
 public:
 //Constructors / Destructors
-  CAA3DCoordinate() : X(0), 
-                      Y(0), 
-                      Z(0) 
+  CAA3DCoordinate() noexcept : X(0),
+                               Y(0),
+                               Z(0)
   {
   };
+  CAA3DCoordinate(const CAA3DCoordinate&) = default;
+  CAA3DCoordinate(CAA3DCoordinate&&) = default;
+  ~CAA3DCoordinate() = default;
 
-//member variables
+//Methods
+  CAA3DCoordinate& operator=(const CAA3DCoordinate&) = default;
+  CAA3DCoordinate& operator=(CAA3DCoordinate&&) = default;
+
+//Member variables
   double X;
   double Y;
   double Z;

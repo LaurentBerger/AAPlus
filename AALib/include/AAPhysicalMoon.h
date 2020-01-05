@@ -3,7 +3,7 @@ Module : AAPhysicalMoon.h
 Purpose: Implementation for the algorithms which obtain the physical parameters of the Moon
 Created: PJN / 17-01-2004
 
-Copyright (c) 2004 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -43,15 +43,22 @@ class AAPLUS_EXT_CLASS CAAPhysicalMoonDetails
 {
 public:
 //Constructors / Destructors
-  CAAPhysicalMoonDetails() : ldash(0), 
-                             bdash(0), 
-                             ldash2(0),
-                             bdash2(0), 
-                             l(0), 
-                             b(0), 
-                             P(0) 
+  CAAPhysicalMoonDetails() noexcept : ldash(0),
+                                      bdash(0),
+                                      ldash2(0),
+                                      bdash2(0),
+                                      l(0),
+                                      b(0),
+                                      P(0)
   {
   };
+  CAAPhysicalMoonDetails(const CAAPhysicalMoonDetails&) = default;
+  CAAPhysicalMoonDetails(CAAPhysicalMoonDetails&&) = default;
+  ~CAAPhysicalMoonDetails() = default;
+
+//Methods
+  CAAPhysicalMoonDetails& operator=(const CAAPhysicalMoonDetails&) = default;
+  CAAPhysicalMoonDetails& operator=(CAAPhysicalMoonDetails&&) = default;
 
 //Member variables
   double ldash;
@@ -67,11 +74,18 @@ class AAPLUS_EXT_CLASS CAASelenographicMoonDetails
 {
 public:
 //Constructors / Destructors
-  CAASelenographicMoonDetails() : l0(0), 
-                                  b0(0), 
-                                  c0(0) 
+  CAASelenographicMoonDetails() noexcept : l0(0),
+                                           b0(0),
+                                           c0(0)
   {
   };
+  CAASelenographicMoonDetails(const CAASelenographicMoonDetails&) = default;
+  CAASelenographicMoonDetails(CAASelenographicMoonDetails&&) = default;
+  ~CAASelenographicMoonDetails() = default;
+
+//Methods
+  CAASelenographicMoonDetails& operator=(const CAASelenographicMoonDetails&) = default;
+  CAASelenographicMoonDetails& operator=(CAASelenographicMoonDetails&&) = default;
 
 //Member variables
   double l0;
@@ -83,17 +97,17 @@ class AAPLUS_EXT_CLASS CAAPhysicalMoon
 {
 public:
 //Static methods
-  static CAAPhysicalMoonDetails CalculateGeocentric(double JD);
-  static CAAPhysicalMoonDetails CalculateTopocentric(double JD, double Longitude, double Latitude);
-  static CAASelenographicMoonDetails CalculateSelenographicPositionOfSun(double JD, bool bHighPrecision);
-  static double AltitudeOfSun(double JD, double Longitude, double Latitude, bool bHighPrecision);
-  static double TimeOfSunrise(double JD, double Longitude, double Latitude, bool bHighPrecision);
-  static double TimeOfSunset(double JD, double Longitude, double Latitude, bool bHighPrecision);
+  static CAAPhysicalMoonDetails CalculateGeocentric(double JD) noexcept;
+  static CAAPhysicalMoonDetails CalculateTopocentric(double JD, double Longitude, double Latitude) noexcept;
+  static CAASelenographicMoonDetails CalculateSelenographicPositionOfSun(double JD, bool bHighPrecision) noexcept;
+  static double AltitudeOfSun(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept;
+  static double TimeOfSunrise(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept;
+  static double TimeOfSunset(double JD, double Longitude, double Latitude, bool bHighPrecision) noexcept;
 
 protected:
-  static double SunriseSunsetHelper(double JD, double Longitude, double Latitude, bool bSunrise, bool bHighPrecision);
-  static CAAPhysicalMoonDetails CalculateHelper(double JD, double& Lambda, double& Beta, double& epsilon, CAA2DCoordinate& Equatorial);
-  static void CalculateOpticalLibration(double JD, double Lambda, double Beta, double& ldash, double& bdash, double& ldash2, double& bdash2, double& epsilon, double& omega, double& DeltaU, double& sigma, double& I, double& rho);
+  static double SunriseSunsetHelper(double JD, double Longitude, double Latitude, bool bSunrise, bool bHighPrecision) noexcept;
+  static CAAPhysicalMoonDetails CalculateHelper(double JD, double& Lambda, double& Beta, double& epsilon, CAA2DCoordinate& Equatorial) noexcept;
+  static void CalculateOpticalLibration(double JD, double Lambda, double Beta, double& ldash, double& bdash, double& ldash2, double& bdash2, double& epsilon, double& omega, double& DeltaU, double& sigma, double& I, double& rho) noexcept;
 };
 
 

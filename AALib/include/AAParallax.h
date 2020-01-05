@@ -3,7 +3,7 @@ Module : AAParallax.h
 Purpose: Implementation for the algorithms which convert a geocentric set of coordinates to their topocentric equivalent
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -43,11 +43,19 @@ class AAPLUS_EXT_CLASS CAATopocentricEclipticDetails
 {
 public:
 //Constructors / Destructors
-  CAATopocentricEclipticDetails() : Lambda(0), 
-                                    Beta(0), 
-                                    Semidiameter(0) 
+  CAATopocentricEclipticDetails() noexcept : Lambda(0),
+                                             Beta(0),
+                                             Semidiameter(0)
   {
   };
+  CAATopocentricEclipticDetails(const CAATopocentricEclipticDetails&) = default;
+  CAATopocentricEclipticDetails(CAATopocentricEclipticDetails&&) = default;
+  ~CAATopocentricEclipticDetails() = default;
+
+//Methods
+  CAATopocentricEclipticDetails& operator=(const CAATopocentricEclipticDetails&) = default;
+  CAATopocentricEclipticDetails& operator=(CAATopocentricEclipticDetails&&) = default;
+
 
 //Member variables
   double Lambda;
@@ -59,12 +67,12 @@ class AAPLUS_EXT_CLASS CAAParallax
 {
 public:
 //Conversion functions
-  static CAA2DCoordinate Equatorial2TopocentricDelta(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD);
-  static CAA2DCoordinate Equatorial2Topocentric(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD);
-  static CAATopocentricEclipticDetails Ecliptic2Topocentric(double Lambda, double Beta, double Semidiameter, double Distance, double Epsilon, double Latitude, double Height, double JD);
+  static CAA2DCoordinate Equatorial2TopocentricDelta(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD) noexcept;
+  static CAA2DCoordinate Equatorial2Topocentric(double Alpha, double Delta, double Distance, double Longitude, double Latitude, double Height, double JD) noexcept;
+  static CAATopocentricEclipticDetails Ecliptic2Topocentric(double Lambda, double Beta, double Semidiameter, double Distance, double Epsilon, double Latitude, double Height, double JD) noexcept;
 
-  static double ParallaxToDistance(double Parallax);
-  static double DistanceToParallax(double Distance);
+  static double ParallaxToDistance(double Parallax) noexcept;
+  static double DistanceToParallax(double Distance) noexcept;
 };
 
 

@@ -3,7 +3,7 @@ Module : AAEclipticalElements.h
 Purpose: Implementation for the algorithms which map the ecliptical elements from one equinox to another
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,11 +38,18 @@ class AAPLUS_EXT_CLASS CAAEclipticalElementDetails
 {
 public:
 //Constructors / Destructors
-  CAAEclipticalElementDetails() : i(0), 
-                                  w(0), 
-                                  omega(0) 
+  CAAEclipticalElementDetails() noexcept : i(0),
+                                           w(0),
+                                           omega(0)
   {
   };
+  CAAEclipticalElementDetails(const CAAEclipticalElementDetails&) = default;
+  CAAEclipticalElementDetails(CAAEclipticalElementDetails&&) = default;
+  ~CAAEclipticalElementDetails() = default;
+
+//Methods
+  CAAEclipticalElementDetails& operator=(const CAAEclipticalElementDetails&) = default;
+  CAAEclipticalElementDetails& operator=(CAAEclipticalElementDetails&&) = default;
 
 //Member variables
   double i;
@@ -54,8 +61,8 @@ class AAPLUS_EXT_CLASS CAAEclipticalElements
 {
 public:
 //Static methods
-  static CAAEclipticalElementDetails Calculate(double i0, double w0, double omega0, double JD0, double JD);
-  static CAAEclipticalElementDetails FK4B1950ToFK5J2000(double i0, double w0, double omega0);
+  static CAAEclipticalElementDetails Calculate(double i0, double w0, double omega0, double JD0, double JD) noexcept;
+  static CAAEclipticalElementDetails FK4B1950ToFK5J2000(double i0, double w0, double omega0) noexcept;
 };
 
 

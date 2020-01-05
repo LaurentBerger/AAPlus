@@ -3,7 +3,7 @@ Module : AA+.h
 Purpose: Main include file for AA+ framework
 Created: PJN / 30-1-2005
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -13,7 +13,7 @@ You are allowed to include the source code in any product (commercial, shareware
 when your product is released in binary form. You are allowed to modify the source code in any way you want 
 except you cannot modify the copyright details at the top of each module. If you want to distribute source 
 code with your application, then you are only allowed to distribute versions released by the author. This is 
-to maintain a single distribution point for the source code. 
+to maintain a single distribution point for the source code.
 
 */
 
@@ -57,6 +57,7 @@ to maintain a single distribution point for the source code.
 #endif //#ifndef AAPLUS_NO_ELPMPP02
 #include "AAEquationOfTime.h"
 #include "AAEquinoxesAndSolstices.h"
+#include "AAEquinoxesAndSolstices2.h"
 #include "AAFK5.h"
 #include "AAGalileanMoons.h"
 #include "AAGlobe.h"
@@ -70,9 +71,13 @@ to maintain a single distribution point for the source code.
 #include "AAMoon.h"
 #include "AAMoonIlluminatedFraction.h"
 #include "AAMoonMaxDeclinations.h"
+#include "AAMoonMaxDeclinations2.h"
 #include "AAMoonNodes.h"
+#include "AAMoonNodes2.h"
 #include "AAMoonPerigeeApogee.h"
+#include "AAMoonPerigeeApogee2.h"
 #include "AAMoonPhases.h"
+#include "AAMoonPhases2.h"
 #include "AAMoslemCalendar.h"
 #include "AANearParabolic.h"
 #include "AANeptune.h"
@@ -91,6 +96,7 @@ to maintain a single distribution point for the source code.
 #include "AAPrecession.h"
 #include "AARefraction.h"
 #include "AARiseTransitSet.h"
+#include "AARiseTransitSet2.h"
 #include "AASaturn.h"
 #include "AASaturnMoons.h"
 #include "AASaturnRings.h"

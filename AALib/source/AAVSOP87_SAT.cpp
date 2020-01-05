@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms for VSOP87
 Created: PJN / 13-09-2015
 History: PJN / 13-09-2015 1. Initial public release.
 
-Copyright (c) 2015 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2015 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -21,7 +21,7 @@ to maintain a single distribution point for the source code.
 
 /////////////////////////////// Includes //////////////////////////////////////
 
-
+#include "stdafx.h"
 #include "AAVSOP87.h"
 #include "AAVSOP87_SAT.h"
 #include <cmath>
@@ -29,6 +29,10 @@ using namespace std;
 
 
 ////////////////////////////// Macros / Defines ///////////////////////////////
+
+#ifdef _MSC_VER
+#pragma warning(disable : 26485)
+#endif //#ifdef _MSC_VER
 
 const VSOP87Coefficient g_VSOP87_A0_SATURN[] =
 {
@@ -12568,33 +12572,32 @@ const VSOP87Coefficient2 g_VSOP87_P_SATURN[] =
 
 ////////////////////////////// Implementation /////////////////////////////////
 
-double CAAVSOP87_Saturn::A(double JD)
+double CAAVSOP87_Saturn::A(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_A_SATURN, sizeof(g_VSOP87_A_SATURN)/sizeof(VSOP87Coefficient2), false);
 }
 
-double CAAVSOP87_Saturn::L(double JD)
+double CAAVSOP87_Saturn::L(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_L_SATURN, sizeof(g_VSOP87_L_SATURN)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Saturn::K(double JD)
+double CAAVSOP87_Saturn::K(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_K_SATURN, sizeof(g_VSOP87_K_SATURN)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Saturn::H(double JD)
+double CAAVSOP87_Saturn::H(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_H_SATURN, sizeof(g_VSOP87_H_SATURN)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Saturn::Q(double JD)
+double CAAVSOP87_Saturn::Q(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_Q_SATURN, sizeof(g_VSOP87_Q_SATURN)/sizeof(VSOP87Coefficient2), true);
 }
 
-double CAAVSOP87_Saturn::P(double JD)
+double CAAVSOP87_Saturn::P(double JD) noexcept
 {
   return CVSOP87::Calculate(JD, g_VSOP87_P_SATURN, sizeof(g_VSOP87_P_SATURN)/sizeof(VSOP87Coefficient2), true);
 }
-

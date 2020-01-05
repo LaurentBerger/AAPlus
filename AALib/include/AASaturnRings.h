@@ -3,7 +3,7 @@ Module : AASaturnRings.h
 Purpose: Implementation for the algorithms which calculate various parameters related to the Rings of Saturn
 Created: PJN / 08-01-2004
 
-Copyright (c) 2004 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2004 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -38,17 +38,23 @@ class AAPLUS_EXT_CLASS CAASaturnRingDetails
 {
 public:
 //Constructors / Destructors
-  CAASaturnRingDetails() : B(0), 
-                           Bdash(0), 
-                           P(0),
-                           a(0), 
-                           b(0), 
-                           DeltaU(0),
-                           U1(0),
-                           U2(0)
-
+  CAASaturnRingDetails() noexcept : B(0),
+                                    Bdash(0),
+                                    P(0),
+                                    a(0),
+                                    b(0),
+                                    DeltaU(0),
+                                    U1(0),
+                                    U2(0)
   {
   };
+  CAASaturnRingDetails(const CAASaturnRingDetails&) = default;
+  CAASaturnRingDetails(CAASaturnRingDetails&&) = default;
+  ~CAASaturnRingDetails() = default;
+
+//Methods
+  CAASaturnRingDetails& operator=(const CAASaturnRingDetails&) = default;
+  CAASaturnRingDetails& operator=(CAASaturnRingDetails&&) = default;
 
 //Member variables
   double B;
@@ -65,7 +71,7 @@ class AAPLUS_EXT_CLASS CAASaturnRings
 {
 public:
 //Static methods
-  static CAASaturnRingDetails Calculate(double JD, bool bHighPrecision);
+  static CAASaturnRingDetails Calculate(double JD, bool bHighPrecision) noexcept;
 };
 
 

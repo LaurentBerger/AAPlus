@@ -4,7 +4,7 @@ Purpose: Implementation for the algorithms which provides for conversion between
          and Terrestrial Time (TT) aka Terrestrial Dynamical Time (TDT) aka Ephemeris Time (ET)
 Created: PJN / 29-12-2003
 
-Copyright (c) 2003 - 2018 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 2003 - 2020 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -39,15 +39,24 @@ class AAPLUS_EXT_CLASS CAADynamicalTime
 {
 public:
 //Static methods
-  static double DeltaT(double JD);
-  static double CumulativeLeapSeconds(double JD);
-  static double TT2UTC(double JD);
-  static double UTC2TT(double JD);
-  static double TT2TAI(double JD);
-  static double TAI2TT(double JD);
-  static double TT2UT1(double JD);
-  static double UT12TT(double JD);
-  static double UT1MinusUTC(double JD);
+  static double DeltaT(double JD) noexcept;
+  static double CumulativeLeapSeconds(double JD) noexcept;
+  static double TT2UTC(double JD) noexcept;
+  static double UTC2TT(double JD) noexcept;
+
+  constexpr static double TT2TAI(double JD)
+  {
+    return JD - (32.184 / 86400.0);
+  }
+
+  constexpr static double TAI2TT(double JD)
+  {
+    return JD + (32.184 / 86400.0);
+  }
+
+  static double TT2UT1(double JD) noexcept;
+  static double UT12TT(double JD) noexcept;
+  static double UT1MinusUTC(double JD) noexcept;
 };
 
 
